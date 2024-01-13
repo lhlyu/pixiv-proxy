@@ -1,4 +1,5 @@
 const PIXIV_BASE_URL = "https://i.pximg.net"
+const TWIMG_BASE_URL = "https://pbs.twimg.com"
 
 const headers = new Headers()
 headers.append('Referer', 'https://www.pixiv.net/');
@@ -30,6 +31,11 @@ Deno.serve(async (req) => {
   }
   if (url.pathname === '/favicon.ico') {
     return new Response()
+  }
+  if (url.pathname.indexOf('/media') === 0) {
+    const pUrl = TWIMG_BASE_URL + url.pathname + url.search
+    const response = await fetch(pUrl);
+    return response
   }
   const pUrl = PIXIV_BASE_URL + url.pathname
   const response = await fetch(pUrl, option);
